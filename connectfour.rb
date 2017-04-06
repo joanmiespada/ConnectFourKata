@@ -3,8 +3,15 @@
 
 class ConnectFour
 
-    def initialize(player1,player2) 
+    def initialize
+        @player1Name= ""
+        @player2Name= ""
+    end
+
+    def setPlayerOne(player1) 
         @player1Name= player1
+    end
+    def setPlayerTwo(player2) 
         @player2Name= player2
     end
 
@@ -22,7 +29,3 @@ class ConnectFour
 
 end
 
-game = ConnectFour.new("player1","player2")
-print game.to_s()
-game.AddToken("blue","1")
-game.GetAllBoard()
