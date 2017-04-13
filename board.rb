@@ -88,6 +88,60 @@ class Board
         
     end
 
+    def DiagonallyUpRight(player,row,column)        
+        if column + FOURINLINE < COLS_LENGTH  && row + FOURINLINE < ROWS_LENGTH  then                    
+            for index in 1..FOURINLINE-1 
+                if @myBoard[row+index][column+index] != player then
+                    return false
+                end
+            end
+            return true 
+        end
+        return false
+    end
+
+    def DiagonallyUpLeft(player,row,column)
+        if column - FOURINLINE >= 0  && row + FOURINLINE < ROWS_LENGTH  then 
+            for index in 1..FOURINLINE-1 
+                if @myBoard[row+index][column-index] != player then
+                    return false
+                end
+            end
+            return true
+        end
+        return false
+    end
+
+    def DiagonallyDownRight(player,row,column)
+        
+        if column + FOURINLINE < COLS_LENGTH  && row - FOURINLINE >= 0  then    
+            for index in 1..FOURINLINE-1 
+                if @myBoard[row-index][column+index] != player then
+                    return false
+                end
+            end
+            return true
+        end
+        return false
+    end
+
+    def DiagonallyDownLeft(player,row,column)
+
+        
+        if column - FOURINLINE >=0  && row - FOURINLINE >= 0  then 
+            for index in 1..FOURINLINE-1 
+                if @myBoard[row-index][column-index] != player then
+                    return false
+                end
+            end
+            return true
+        end
+        return false
+
+    end
+
+
+
     def Diagonally(playerId,row,column)
         
         if row < 0 || column <0 || row > ROWS_LENGTH || column > COLS_LENGTH then
@@ -95,56 +149,21 @@ class Board
         end
       
         player=@myBoard[row][column]
-        result = true
-        if column + FOURINLINE < COLS_LENGTH  && row + FOURINLINE < ROWS_LENGTH  then                    
-            for index in 1..FOURINLINE-1 
-                if @myBoard[row+index][column+index] != player then
-                    result=false
-                    break
-                end
-            end
-            if result then 
-                return true #it isn't necessary explore other posibilities
-            end 
+
+        if DiagonallyUpRight(player, row, column) then 
+            return true
         end
 
-        result = true
-        if column - FOURINLINE >= 0  && row + FOURINLINE < ROWS_LENGTH  then 
-            for index in 1..FOURINLINE-1 
-                if @myBoard[row+index][column-index] != player then
-                    result=false
-                    break
-                end
-            end
-            if result then 
-                return true 
-            end
+        if DiagonallyUpLeft(player, row, column) then 
+            return true
         end
 
-        result = true
-        if column + FOURINLINE < COLS_LENGTH  && row - FOURINLINE >= 0  then    
-            for index in 1..FOURINLINE-1 
-                if @myBoard[row-index][column+index] != player then
-                    result=false
-                    break
-                end
-            end
-            if result then 
-                return true 
-            end
+        if DiagonallyDownRight(player, row, column) then 
+            return true
         end
 
-        result = true
-        if column - FOURINLINE >=0  && row - FOURINLINE >= 0  then 
-            for index in 1..FOURINLINE-1 
-                if @myBoard[row-index][column-index] != player then
-                    result=false
-                    break
-                end
-            end
-            if result then 
-                return true 
-            end
+        if DiagonallyDownLeft(player, row, column) then 
+            return true
         end
 
         return false
