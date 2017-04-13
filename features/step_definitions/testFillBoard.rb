@@ -32,7 +32,7 @@ Then (/^I will see the board with correct tokens$/) do
 end
 
 Then (/^the user1 wins the match$/) do 
-    res= _board.IfTheWinner('player1')
+    res= _board.IsAlreadyWinner(ConnectFour::User::PLAYER1)
 
     expect(res).to eq(true)
     #print res

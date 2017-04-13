@@ -4,13 +4,17 @@ As a player
 I want to win the match
 So that I need a minimum of 4 tokens aligned horizontally, vertically or diagonal 
 
-Scenario: User1 win the match with vertical align tokens.
+Scenario: User1 win the match with Diagonal align tokens.
 Given I have created Board empty ready to play
 When The user1 drops a Token in column "1"
-When The user2 drops a Token in column "1"
-When The user1 drops a Token in column "2"
 When The user2 drops a Token in column "2"
-When The user1 drops a Token in column "3"
+When The user1 drops a Token in column "2"
 When The user2 drops a Token in column "3"
+When The user1 drops a Token in column "3"
+When The user2 drops a Token in column "4"
+When The user1 drops a Token in column "3"
+When The user2 drops a Token in column "4"
+When The user1 drops a Token in column "5"
+When The user2 drops a Token in column "4"
 When The user1 drops a Token in column "4"
 Then the user1 wins the match

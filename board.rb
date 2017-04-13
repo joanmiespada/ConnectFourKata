@@ -1,9 +1,9 @@
 
 class Board
 
-    ROWS_LENGTH = 5
-    COLS_LENGTH = 5
-
+    ROWS_LENGTH = 7
+    COLS_LENGTH = 7
+    FOURINLINE = 4
     INITIAL_VALUE = 0
 
     def initialize
@@ -41,4 +41,116 @@ class Board
     def GetBoard
         @myBoard.dup #return a copy
     end
+
+    def CheckIfThereIsWinner(playerId)    
+        for row in 0..ROWS_LENGTH-1 do
+            for col in 0..COLS_LENGTH-1 do
+                if @myBoard[row][col] == playerId then
+                    if Horintally(playerId, row,col) then
+                        return true
+                    elsif Vertically(playerId, row, col) then
+                        return true
+                    elsif Diagonally(playerId, row, col) then
+                        return true
+                    end
+                end
+            end
+        end
+    end
+
+
+    def Vertically(playerId, row,column)
+        if row + FOURINLINE > ROWS_LENGTH then
+            return false
+        end
+      
+        player=@myBoard[row][column]
+        for index in 1..FOURINLINE-1 
+            if @myBoard[row+index][column] != player then
+                return false
+            end
+        end
+        return true
+    end
+
+    def Horintally(playerId,row,column)
+        if column + FOURINLINE > COLS_LENGTH then
+            return false
+        end
+      
+        player=@myBoard[row][column]
+        for index in 1..FOURINLINE-1 
+            if @myBoard[row][column+index] != player then
+                return false
+            end
+        end
+        return true
+        
+    end
+
+    def Diagonally(playerId,row,column)
+        
+        if row < 0 || column <0 || row > ROWS_LENGTH || column > COLS_LENGTH then
+            return false
+        end
+      
+        player=@myBoard[row][column]
+        result = true
+        if column + FOURINLINE < COLS_LENGTH  && row + FOURINLINE < ROWS_LENGTH  then                    
+            for index in 1..FOURINLINE-1 
+                if @myBoard[row+index][column+index] != player then
+                    result=false
+                    break
+                end
+            end
+            if result then 
+                return true #it isn't necessary explore other posibilities
+            end 
+        end
+
+        result = true
+        if column - FOURINLINE >= 0  && row + FOURINLINE < ROWS_LENGTH  then 
+            for index in 1..FOURINLINE-1 
+                if @myBoard[row+index][column-index] != player then
+                    result=false
+                    break
+                end
+            end
+            if result then 
+                return true 
+            end
+        end
+
+        result = true
+        if column + FOURINLINE < COLS_LENGTH  && row - FOURINLINE >= 0  then    
+            for index in 1..FOURINLINE-1 
+                if @myBoard[row-index][column+index] != player then
+                    result=false
+                    break
+                end
+            end
+            if result then 
+                return true 
+            end
+        end
+
+        result = true
+        if column - FOURINLINE >=0  && row - FOURINLINE >= 0  then 
+            for index in 1..FOURINLINE-1 
+                if @myBoard[row-index][column-index] != player then
+                    result=false
+                    break
+                end
+            end
+            if result then 
+                return true 
+            end
+        end
+
+        return false
+        
+    end
+
+     
+
 end

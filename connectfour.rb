@@ -35,9 +35,9 @@ class ConnectFour
         @board.GetBoard
     end
 
-    def IfTheWinner(player)
-        
-        return true
+    def IsAlreadyWinner(playerId)
+        #return true
+        return @board.CheckIfThereIsWinner(playerId)
 
     end
 
