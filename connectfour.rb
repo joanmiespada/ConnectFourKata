@@ -1,11 +1,19 @@
 #!/usr/bin/env ruby 
 #Connect Four main class ClassName
 
+require_relative "board"
+
 class ConnectFour
+
+    module User
+        PLAYER1=1
+        PLAYER2=2
+    end
 
     def initialize
         @player1Name= ""
         @player2Name= ""
+        @board = Board.new
     end
 
     def setPlayerOne(player1) 
@@ -20,11 +28,17 @@ class ConnectFour
     end
 
     def AddToken(user_color, column)
-        print "UserColor: #{user_color} in column: #{column}"    
+        @board.AddToken(user_color, column)
     end
 
     def GetAllBoard()
-        return []
+        @board.GetBoard
+    end
+
+    def IfTheWinner(player)
+        
+        return true
+
     end
 
 end
