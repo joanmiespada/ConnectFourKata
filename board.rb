@@ -7,10 +7,10 @@ class Board
     INITIAL_VALUE = 0
 
     def initialize
-        @myBoard = Array.new( ROWS_LENGTH )
+        @my_Board = Array.new( ROWS_LENGTH )
 
         for index in 0..ROWS_LENGTH-1
-            @myBoard[index] = Array.new( COLS_LENGTH, INITIAL_VALUE)
+            @my_Board[index] = Array.new( COLS_LENGTH, INITIAL_VALUE)
         end
 
     end
@@ -23,7 +23,7 @@ class Board
         finish=false;
         row = 0 
         while !finish do     
-                item = @myBoard[row]
+                item = @my_Board[row]
                 if item[col] == 0 then
                     item[col] = user
                     finish = true
@@ -39,13 +39,13 @@ class Board
     end
 
     def GetBoard
-        @myBoard.dup #return a copy
+        @my_Board.dup #return a copy
     end
 
     def CheckIfThereIsWinner(playerId)    
         for row in 0..ROWS_LENGTH-1 do
             for col in 0..COLS_LENGTH-1 do
-                if @myBoard[row][col] == playerId then
+                if @my_Board[row][col] == playerId then
                     if Horintally(playerId, row,col) then
                         return true
                     elsif Vertically(playerId, row, col) then
@@ -64,9 +64,9 @@ class Board
             return false
         end
       
-        player=@myBoard[row][column]
+        player=@my_Board[row][column]
         for index in 1..FOURINLINE-1 
-            if @myBoard[row+index][column] != player then
+            if @my_Board[row+index][column] != player then
                 return false
             end
         end
@@ -78,9 +78,9 @@ class Board
             return false
         end
       
-        player=@myBoard[row][column]
+        player=@my_Board[row][column]
         for index in 1..FOURINLINE-1 
-            if @myBoard[row][column+index] != player then
+            if @my_Board[row][column+index] != player then
                 return false
             end
         end
@@ -91,7 +91,7 @@ class Board
     def DiagonallyUpRight(player,row,column)        
         if column + FOURINLINE < COLS_LENGTH  && row + FOURINLINE < ROWS_LENGTH  then                    
             for index in 1..FOURINLINE-1 
-                if @myBoard[row+index][column+index] != player then
+                if @my_Board[row+index][column+index] != player then
                     return false
                 end
             end
@@ -103,7 +103,7 @@ class Board
     def DiagonallyUpLeft(player,row,column)
         if column - FOURINLINE >= 0  && row + FOURINLINE < ROWS_LENGTH  then 
             for index in 1..FOURINLINE-1 
-                if @myBoard[row+index][column-index] != player then
+                if @my_Board[row+index][column-index] != player then
                     return false
                 end
             end
@@ -116,7 +116,7 @@ class Board
         
         if column + FOURINLINE < COLS_LENGTH  && row - FOURINLINE >= 0  then    
             for index in 1..FOURINLINE-1 
-                if @myBoard[row-index][column+index] != player then
+                if @my_Board[row-index][column+index] != player then
                     return false
                 end
             end
@@ -130,7 +130,7 @@ class Board
         
         if column - FOURINLINE >=0  && row - FOURINLINE >= 0  then 
             for index in 1..FOURINLINE-1 
-                if @myBoard[row-index][column-index] != player then
+                if @my_Board[row-index][column-index] != player then
                     return false
                 end
             end
@@ -148,7 +148,7 @@ class Board
             return false
         end
       
-        player=@myBoard[row][column]
+        player=@my_Board[row][column]
 
         if DiagonallyUpRight(player, row, column) then 
             return true
