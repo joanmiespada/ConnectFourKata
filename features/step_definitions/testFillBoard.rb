@@ -11,12 +11,12 @@ Given (/^I have created Board empty ready to play$/) do
 end 
 
 When (/^The user1 drops a Token in column "([^"]*)"$/) do |column| 
-    row =_board.AddToken(ConnectFour::User::PLAYER1, column.to_i)
+    row =_board.add_token(ConnectFour::User::PLAYER1, column.to_i)
     _tokens.push( ['player1', row, column.to_i ]  )
 end
 
 When (/^The user2 drops a Token in column "([^"]*)"$/) do |column| 
-    row=_board.AddToken(ConnectFour::User::PLAYER2, column.to_i)
+    row=_board.add_token(ConnectFour::User::PLAYER2, column.to_i)
     _tokens.push( ['player2',row,column.to_i ]  )
 end  
 

@@ -27,17 +27,17 @@ class ConnectFour
         return "Game with #{@player1Name} and #{@player2Name}"
     end
 
-    def AddToken(user_color, column)
-        @board.AddToken(user_color, column)
+    def add_token(user_color, column)
+        @board.add_token(user_color, column)
     end
 
     def GetAllBoard()
-        @board.GetBoard
+        @board.board
     end
 
     def IsAlreadyWinner(playerId)
         #return true
-        return @board.CheckIfThereIsWinner(playerId)
+        return @board.check_if_there_is_winner(playerId)
 
     end
 

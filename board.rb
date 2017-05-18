@@ -1,175 +1,130 @@
+# Class Board, manage the board for both players
 
 class Board
+  ROWS_LENGTH = 7
+  COLS_LENGTH = 7
+  FOURINLINE = 4
+  INITIAL_VALUE = 0
 
-    ROWS_LENGTH = 7
-    COLS_LENGTH = 7
-    FOURINLINE = 4
-    INITIAL_VALUE = 0
+  def initialize
+    @my_board = Array.new(ROWS_LENGTH) { Array.new(COLS_LENGTH, INITIAL_VALUE) }
+  end
 
-    def initialize
-        @my_Board = Array.new( ROWS_LENGTH )
+  def add_token(user, col)
+    raise ArgumentError, 'Argument should not be zero' if user == INITIAL_VALUE
+    nofinish = true
+    row = 0
+    while nofinish
+      item = @my_board[row]
+      if item[col].zero? # == 0
+        item[col] = user
+        nofinish = false
+      end
+      row += 1 if row < ROWS_LENGTH # then
+      nofinish = false if row == ROWS_LENGTH # then
+    end # until !finish
+    row - 1
+  end
 
-        for index in 0..ROWS_LENGTH-1
-            @my_Board[index] = Array.new( COLS_LENGTH, INITIAL_VALUE)
-        end
+  def board
+    @my_board.dup # return a copy
+  end
 
-    end
+  def board=(new_board)
+    @my_board = new_board
+  end
 
-    def AddToken(user, col)
-        
-        if user == INITIAL_VALUE then
-            raise ArgumentError, 'Argument should not be zero'   
-        end
-        finish=false;
-        row = 0 
-        while !finish do     
-                item = @my_Board[row]
-                if item[col] == 0 then
-                    item[col] = user
-                    finish = true
-                end
-                if row < ROWS_LENGTH then 
-                    row += 1 
-                end
-                if row == ROWS_LENGTH then
-                    finish=true
-                end
-        end
-        return row-1
-    end
-
-    def GetBoard
-        @my_Board.dup #return a copy
-    end
-
-    def CheckIfThereIsWinner(playerId)    
-        for row in 0..ROWS_LENGTH-1 do
-            for col in 0..COLS_LENGTH-1 do
-                if @my_Board[row][col] == playerId then
-                    if Horintally(playerId, row,col) then
-                        return true
-                    elsif Vertically(playerId, row, col) then
-                        return true
-                    elsif Diagonally(playerId, row, col) then
-                        return true
-                    end
-                end
-            end
-        end
-    end
-
-
-    def Vertically(playerId, row,column)
-        if row + FOURINLINE > ROWS_LENGTH then
-            return false
-        end
-      
-        player=@my_Board[row][column]
-        for index in 1..FOURINLINE-1 
-            if @my_Board[row+index][column] != player then
-                return false
-            end
-        end
-        return true
-    end
-
-    def Horintally(playerId,row,column)
-        if column + FOURINLINE > COLS_LENGTH then
-            return false
-        end
-      
-        player=@my_Board[row][column]
-        for index in 1..FOURINLINE-1 
-            if @my_Board[row][column+index] != player then
-                return false
-            end
-        end
-        return true
-        
-    end
-
-    def DiagonallyUpRight(player,row,column)        
-        if column + FOURINLINE < COLS_LENGTH  && row + FOURINLINE < ROWS_LENGTH  then                    
-            for index in 1..FOURINLINE-1 
-                if @my_Board[row+index][column+index] != player then
-                    return false
-                end
-            end
-            return true 
-        end
-        return false
-    end
-
-    def DiagonallyUpLeft(player,row,column)
-        if column - FOURINLINE >= 0  && row + FOURINLINE < ROWS_LENGTH  then 
-            for index in 1..FOURINLINE-1 
-                if @my_Board[row+index][column-index] != player then
-                    return false
-                end
-            end
+  def check_if_there_is_winner(player_id)
+    @my_board.each_with_index do |row, i|
+      row.each_with_index do |_col, j|
+        if @my_board[i][j] == player_id
+          if horintally(i, j)
             return true
+          elsif vertically(i, j)
+            return true
+          elsif diagonally(i, j)
+            return true
+          end
         end
-        return false
+      end
+    end
+  end
+
+  def vertically(row, column)
+    return false if row + FOURINLINE > ROWS_LENGTH
+
+    player = @my_board[row][column]
+    for index in 1..FOURINLINE - 1
+      return false if @my_board[row + index][column] != player
+    end
+    true
+  end
+
+  def horintally(row, column)
+    return false if column + FOURINLINE > COLS_LENGTH
+
+    player = @my_board[row][column]
+    for index in 1..FOURINLINE - 1
+      return false if @my_board[row][column + index] != player
+    end
+    true
+  end
+
+  def diagonally_up_right(player, row, column)
+    if column + FOURINLINE < COLS_LENGTH && row + FOURINLINE < ROWS_LENGTH
+      for index in 1..FOURINLINE - 1
+        return false if @my_board[row + index][column + index] != player
+        end
+      return true
+    end
+    false
+  end
+
+  def diagonally_up_left(player, row, column)
+    if column - FOURINLINE >= 0 && row + FOURINLINE < ROWS_LENGTH
+      for index in 1..FOURINLINE - 1
+        return false if @my_board[row + index][column - index] != player
+        end
+      return true
+    end
+    false
+  end
+
+  def diagonally_down_right(player, row, column)
+    if column + FOURINLINE < COLS_LENGTH && row - FOURINLINE >= 0
+      for index in 1..FOURINLINE - 1
+        return false if @my_board[row - index][column + index] != player
+        end
+      return true
+    end
+    false
+  end
+
+  def diagonally_down_left(player, row, column)
+    if column - FOURINLINE >= 0 && row - FOURINLINE >= 0
+      for index in 1..FOURINLINE - 1
+        return false if @my_board[row - index][column - index] != player
+        end
+      return true
+    end
+    false
+  end
+
+  def diagonally(row, column)
+    if row < 0 || column < 0 || row > ROWS_LENGTH || column > COLS_LENGTH
+      return false
     end
 
-    def DiagonallyDownRight(player,row,column)
-        
-        if column + FOURINLINE < COLS_LENGTH  && row - FOURINLINE >= 0  then    
-            for index in 1..FOURINLINE-1 
-                if @my_Board[row-index][column+index] != player then
-                    return false
-                end
-            end
-            return true
-        end
-        return false
-    end
+    player = @my_board[row][column]
 
-    def DiagonallyDownLeft(player,row,column)
+    return true if diagonally_up_right(player, row, column)
 
-        
-        if column - FOURINLINE >=0  && row - FOURINLINE >= 0  then 
-            for index in 1..FOURINLINE-1 
-                if @my_Board[row-index][column-index] != player then
-                    return false
-                end
-            end
-            return true
-        end
-        return false
+    return true if diagonally_up_left(player, row, column)
 
-    end
+    return true if diagonally_down_right(player, row, column)
 
+    return true if diagonally_down_left(player, row, column)
 
-
-    def Diagonally(playerId,row,column)
-        
-        if row < 0 || column <0 || row > ROWS_LENGTH || column > COLS_LENGTH then
-            return false
-        end
-      
-        player=@my_Board[row][column]
-
-        if DiagonallyUpRight(player, row, column) then 
-            return true
-        end
-
-        if DiagonallyUpLeft(player, row, column) then 
-            return true
-        end
-
-        if DiagonallyDownRight(player, row, column) then 
-            return true
-        end
-
-        if DiagonallyDownLeft(player, row, column) then 
-            return true
-        end
-
-        return false
-        
-    end
-
-     
-
+    false
+  end
 end
