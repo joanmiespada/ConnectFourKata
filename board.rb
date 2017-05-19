@@ -111,9 +111,7 @@ class Board
   end
 
   def diagonally(row, column)
-    if row < 0 || column < 0 || row > ROWS_LENGTH || column > COLS_LENGTH
-      return false
-    end
+    return false unless check_bounds(row, column)
 
     player = @my_board[row][column]
 
@@ -126,5 +124,12 @@ class Board
     return true if diagonally_down_left(player, row, column)
 
     false
+  end
+
+  def check_bounds(row, column)
+    if row < 0 || column < 0 || row > ROWS_LENGTH || column > COLS_LENGTH
+      return false
+    end
+    true
   end
 end
